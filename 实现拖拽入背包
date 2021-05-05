@@ -1,0 +1,44 @@
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
+using System.Collections;
+public class DropMe : MonoBehaviour, IDropHandler, IPointerEnterHandler, IPointerExitHandler
+｛
+    public GameObject m_myCardsObj;
+    private bool m_isIn = false;
+    public void OnEnable()
+    ｛
+        Debug.Log("............");
+    ｝
+    // when you release the left button of mouse
+    public void OnDrop(PointerEventData data)
+    ｛
+        Debug.Log(string.Format(">>>>> ｛0｝", m_isIn));
+        if (!m_isIn)
+        ｛
+            m_myCardsObj.GetComponent<MyCards>().UpdateShow();
+        ｝
+    ｝
+    // when the mouse moving in the game object
+    public void OnPointerEnter(PointerEventData data)
+    ｛
+        m_isIn = true;
+        Debug.Log(m_isIn);
+    ｝
+    // when the mouse moving out the game object
+    public void OnPointerExit(PointerEventData data)
+    ｛
+        m_isIn = false;
+        Debug.Log(m_isIn);
+    ｝
+    private Sprite GetDropSprite(PointerEventData data)
+    ｛
+        var originalObj = data.pointerDrag;
+        if (originalObj == null)
+            return null;
+        var srcImage = originalObj.GetComponent<Image>();
+        if (srcImage == null)
+            return null;
+        return srcImage.sprite;
+    ｝
+｝
